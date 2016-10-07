@@ -13,11 +13,7 @@ namespace MindstormsTest.Wpf
     {
         private DeviceClient deviceClient;
         private Brick mindstormsBrick;
-        private DispatcherTimer timer;
-
-        //private string iotHubUri = "legoiothub.azure-devices.net";
-        //private string deviceId = "LEGOEV3";
-        //private string deviceKey = "G35+JOKSUHYXcxZ8DD6VEwsbdUHAAXg5Ld48lYzmTBM=";
+        private DispatcherTimer timer;       
         private int Volume = 100;
 
         public MainWindow()
@@ -46,7 +42,7 @@ namespace MindstormsTest.Wpf
             if (distance < 255)
             {
                 // Play near sound
-                await mindstormsBrick.DirectCommand.PlayToneAsync(100, 1000, 300);
+                await mindstormsBrick.DirectCommand.PlayToneAsync(Volume, 1000, 300);
             }
             else
             {
@@ -79,7 +75,7 @@ namespace MindstormsTest.Wpf
 
         private async void Start_Click(object sender, EventArgs e)
         {
-            bool running = true;
+            btnStart.IsEnabled = false;
             tbkIotHubUrl.IsEnabled = false;
             tbkDeviceId.IsEnabled = false;
             tbkDeviceKey.IsEnabled = false;
@@ -94,7 +90,8 @@ namespace MindstormsTest.Wpf
             {
                 Log(" failed!");
                 Log("Please check the Azure IoT Hub URL, Device ID or Device Key.\n");
-                running = false;
+                Stop();
+                return;
             }
 
             try
@@ -109,23 +106,28 @@ namespace MindstormsTest.Wpf
             {
                 Log(" failed!");
                 Log("Please check the USB connection and switch the EV3 on.\n");
-                running = false;
+                Stop();
+                return;
             }
 
-            if (!running)
-            {
-                tbkIotHubUrl.IsEnabled = true;
-                tbkDeviceId.IsEnabled = true;
-                tbkDeviceKey.IsEnabled = true;
-            }
+            btnStop.IsEnabled = true;
         }
 
         private void Stop_Click(object sender, EventArgs e)
         {
+            Stop();
+        }
+
+        private void Stop()
+        {
+            btnStop.IsEnabled = false;
             timer.Stop();
+            mindstormsBrick.BrickChanged -= MindstormsBrick_BrickChanged;
             tbkIotHubUrl.IsEnabled = true;
             tbkDeviceId.IsEnabled = true;
             tbkDeviceKey.IsEnabled = true;
+            btnStart.IsEnabled = true;
+            Log("Stopped.\n");
         }
     }
 }

@@ -23,11 +23,11 @@
             Padding="0, 5">
             <StackPanel>
                 <TextBlock Text="Azure IoT Hub URL:" />
-                <TextBox Name="tbkIotHubUrl" Margin="0,0,0,5" />
+                <TextBox Name="tbkIotHubUrl" Margin="0,0,0,5" Text="legoiothub.azure-devices.net" />
                 <TextBlock Text="Devce ID:" />
-                <TextBox Name="tbkDeviceId" Margin="0,0,0,5" />
+                <TextBox Name="tbkDeviceId" Margin="0,0,0,5" Text="LEGOEV3" />
                 <TextBlock Text="Devce Key:" />
-                <TextBox Name="tbkDeviceKey" Margin="0,0,0,5" />
+                <TextBox Name="tbkDeviceKey" Margin="0,0,0,5" Text="G35+JOKSUHYXcxZ8DD6VEwsbdUHAAXg5Ld48lYzmTBM=" />
                 <TextBlock Text="Volume:" />
                 <Slider
                     Name="slVolume"
@@ -55,14 +55,16 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button
+                Name="btnStart"
                 Click="Start_Click"
                 Content="Start"
                 Padding="10,3" />
             <Button
+                Name="btnStop"
                 Margin="5,0"
                 Click="Stop_Click"
                 Content="Stop"
-                Padding="10,3" />
+                Padding="10,3" IsEnabled="False" />
         </StackPanel>
     </Grid>
 </Window>
